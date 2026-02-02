@@ -1,3 +1,4 @@
+import 'package:chat_bot/core/gen/assets.dart';
 import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +18,8 @@ class CustomAppbar extends StatelessWidget {
       title: Row(
         children: [
           Image.asset(
-            'assets/images/icon.png',
+            Assets.robotIcon
+            ,
             width: 24,
             height: 36,
             color: Color(0xff3369FF),

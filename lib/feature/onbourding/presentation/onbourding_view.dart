@@ -1,4 +1,4 @@
-import 'package:chat_bot/core/gen/assets.gen.dart';
+import 'package:chat_bot/core/gen/assets.dart';
 import 'package:flutter/material.dart';
 import '../../../core/style/app_styles.dart';
 
@@ -34,7 +34,7 @@ class OnbourdingViewBody extends StatelessWidget {
               style: AppStyles.styleMedium15,
             ),
             SizedBox(height: 86),
-            Assets.images.onbourding.image(),
+            Image.asset(Assets.onbourding),
             Expanded(child: SizedBox()),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
