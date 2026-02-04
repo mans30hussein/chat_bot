@@ -1,4 +1,3 @@
-import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/chat_view_body.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/custom_appbar.dart';
 import 'package:flutter/material.dart';
