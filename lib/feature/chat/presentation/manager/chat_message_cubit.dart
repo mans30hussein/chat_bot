@@ -28,13 +28,13 @@ class ChatCubit extends Cubit<ChatState> {
     try {
       final response = await apiService.sendMessage(body);
 
-      final reply = response.candidates
+      final chatResponse = response.candidates
           ?.first.content
           ?.parts
           ?.first
           .text;
 
-      messages.add(MessageModel(message: reply ?? 'No response', isMe: false));
+      messages.add(MessageModel(message: chatResponse ?? 'No response', isMe: false));
       emit(ChatUpdated(messages));
     } catch (e) {
       emit(ChatError(e.toString()));
