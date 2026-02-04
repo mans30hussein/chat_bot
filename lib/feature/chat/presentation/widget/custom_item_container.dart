@@ -1,4 +1,3 @@
-import 'package:chat_bot/feature/chat/data/const_models/prompot_item_model.dart';
 import 'package:flutter/material.dart';
 
 class CustomItemContainer extends StatelessWidget {

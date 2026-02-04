@@ -1,7 +1,8 @@
 import 'package:chat_bot/core/gen/assets.dart';
-import 'package:chat_bot/feature/chat/data/const_models/list_prompot_item_model.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/header_section.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/list_prompot/list_prompot_item_model.dart';
 
 class AllHeaderSection extends StatelessWidget {
   const AllHeaderSection({

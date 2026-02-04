@@ -1,4 +1,3 @@
-import 'package:chat_bot/feature/chat/presentation/widget/all_header_section.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/custom_text_field.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/list_messages.dart';
 import 'package:flutter/material.dart';
