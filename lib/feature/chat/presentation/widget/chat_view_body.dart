@@ -1,41 +1,21 @@
+import 'package:chat_bot/core/network/api_service.dart';
+import 'package:chat_bot/feature/chat/data/chat_api_servvice/chat_api_service.dart';
+import 'package:chat_bot/feature/chat/presentation/manager/chat_message_cubit.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/custom_text_field.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/list_messages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/model/chat_message_model.dart/chat_message_model.dart';
-
-class ChatViewBody extends StatefulWidget {
+class ChatViewBody extends StatelessWidget {
   const ChatViewBody({super.key});
 
   @override
-  State<ChatViewBody> createState() => _ChatViewBodyState();
-}
-
-class _ChatViewBodyState extends State<ChatViewBody> {
-  final List<MessageModel> messages = [];
-  final TextEditingController controller = TextEditingController();
-  void onSendMessage(String text) {
-    setState(() {
-      messages.add(MessageModel(message: text, isMe: true));
-    });
-  }
-
-  void sendMessage() {
-    final text = controller.text.trim();
-    if (text.isEmpty) return;
-    onSendMessage(text);
-    controller.clear();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        children: [
-          ListMessages(messages: messages),
-          CustomTextField(controller: controller, onPressed: sendMessage),
-        ],
+    return BlocProvider(
+      create: (context) => ChatCubit(apiService: ChatApiService(ApiService.createDio())),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(children: [ListMessages(), CustomTextField()]),
       ),
     );
   }

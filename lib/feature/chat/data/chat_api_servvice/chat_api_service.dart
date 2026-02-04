@@ -1,13 +1,20 @@
+import 'package:chat_bot/core/network/parse_error.dart';
 import 'package:chat_bot/feature/chat/data/model/api_model/chat_message_model.dart';
-import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
-import '../../../../core/network/api_constant.dart';
-part '../api_servvice/chat_api_service.g.dart';
+import 'package:dio/dio.dart';
+import 'package:chat_bot/core/network/api_constant.dart';
+
+part 'chat_api_service.g.dart';
 
 @RestApi(baseUrl: ApiConstants.baseUrl)
 abstract class ChatApiService {
-  factory ChatApiService(Dio dio, {String baseUrl}) = _ChatApiService;
+  ParseErrorLogger? get errorLogger;
 
+  factory ChatApiService(Dio dio, {String? baseUrl, ParseErrorLogger? errorLogger}) = _ChatApiService;
+
+  // هنا بنبعت body كـ Map<String, dynamic>
   @POST(ApiConstants.generateContent)
-  Future<ChatResponse> sendMessage(@Body() Map<String, dynamic> body);
+  Future<ChatResponse> sendMessage(
+    @Body() Map<String, dynamic> body,
+  );
 }

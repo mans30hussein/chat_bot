@@ -1,13 +1,18 @@
-// import '../../data/model/list_prompot/chat_message_model.dart/chat_message_model.dart';
+ 
+import 'package:chat_bot/feature/chat/data/model/chat_message_model.dart/chat_message_model.dart';
 
-// class ChatMessageState {}
-// class ChatMessageInitial extends ChatMessageState {}
-// class ChatMessageLoading extends ChatMessageState {}
-// class ChatMessageSuccess extends ChatMessageState {
-//   final List<MessageModel> messages;
-//   ChatMessageSuccess({required this.messages});
-// }
-// class ChatMessageError extends ChatMessageState {
-//   final String message;
-//   ChatMessageError({required this.message});
-// }
+abstract class ChatState {}
+
+class ChatInitial extends ChatState {}
+
+class ChatLoading extends ChatState {}
+
+class ChatUpdated extends ChatState {
+  final List<MessageModel> messages;
+  ChatUpdated(this.messages);
+}
+
+class ChatError extends ChatState {
+  final String error;
+  ChatError(this.error);
+}
