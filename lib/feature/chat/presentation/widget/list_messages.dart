@@ -19,7 +19,7 @@ class ListMessages extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is ChatError) {
-          return ErrorChatMessage();
+          return ChatMessageError();
         }
 
         return Expanded(

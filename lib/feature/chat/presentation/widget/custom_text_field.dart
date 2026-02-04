@@ -5,10 +5,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../manager/chat_message_cubit.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   CustomTextField({super.key});
 
+  @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
   final TextEditingController controller = TextEditingController();
+
+  @override
+void dispose() {
+  controller.dispose();
+  super.dispose();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +69,12 @@ class CustomTextField extends StatelessWidget {
 
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(color: Colors.red),
+                  borderSide: BorderSide(color: Colors.white),
                 ),
-                // focusedBorder: OutlineInputBorder(
-                //   borderRadius: BorderRadius.circular(30),
-                //   borderSide: BorderSide(color: Colors.red),
-                // ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide(color: Colors.white),

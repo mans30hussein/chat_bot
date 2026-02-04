@@ -1,8 +1,8 @@
 import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:flutter/material.dart';
 
-class ErrorChatMessage extends StatelessWidget {
-  const ErrorChatMessage({super.key});
+class ChatMessageError extends StatelessWidget {
+  const ChatMessageError({super.key});
 
   @override
   Widget build(BuildContext context) {

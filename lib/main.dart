@@ -1,7 +1,9 @@
+import 'package:chat_bot/core/service_locator/service_locator.dart';
 import 'package:chat_bot/feature/chat/presentation/view/chat_view.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+ await setupServiceLocator();
   runApp(const MyApp());
 }
 
