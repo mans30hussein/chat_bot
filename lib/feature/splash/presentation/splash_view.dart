@@ -1,4 +1,4 @@
-import 'package:chat_bot/core/gen/assets.dart';
+import 'package:chat_bot/core/utils/assets.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

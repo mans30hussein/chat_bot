@@ -2,7 +2,7 @@ import 'package:chat_bot/feature/chat/presentation/widget/custom_text_field.dart
 import 'package:chat_bot/feature/chat/presentation/widget/list_messages.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/chat_message_model.dart/chat_message_model.dart';
+import '../../data/model/chat_message_model.dart/chat_message_model.dart';
 
 class ChatViewBody extends StatefulWidget {
   const ChatViewBody({super.key});

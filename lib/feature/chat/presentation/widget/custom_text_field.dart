@@ -1,7 +1,6 @@
 import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/chat_message_model.dart/chat_message_model.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({

@@ -1,7 +1,8 @@
-import 'package:chat_bot/core/gen/assets.dart';
+import 'package:chat_bot/core/utils/assets.dart';
 import 'package:chat_bot/core/style/app_styles.dart';
-import 'package:chat_bot/feature/chat/data/chat_message_model.dart/chat_message_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/model/chat_message_model.dart/chat_message_model.dart';
 
 class UserChatMessage extends StatelessWidget {
   const UserChatMessage({super.key, required this.message});
