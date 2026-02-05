@@ -8,15 +8,20 @@ class ChatCubit extends Cubit<ChatState> {
   final ChatApiService apiService;
 
   ChatCubit({required this.apiService}) : super(ChatInitial());
-  List<MessageModel> messages = [];
+
+  final List<MessageModel> messages = [];
 
   Future<void> sendMessage(String text) async {
-    emit(ChatLoading());
-    await Future.delayed(const Duration(seconds: 10));
-
     if (text.trim().isEmpty) return;
-    messages.add(MessageModel(message: text, isMe: true));
-    emit(ChatUpdated(messages));
+
+    // 1️⃣ أضف رسالة المستخدم فورًا
+    messages.add(
+      MessageModel(message: text, isMe: true),
+    );
+    emit(ChatUpdated(List.from(messages)));
+
+    // 2️⃣ أظهر typing indicator
+    emit(ChatLoading());
 
     final body = {
       "contents": [
@@ -29,17 +34,26 @@ class ChatCubit extends Cubit<ChatState> {
     };
 
     try {
+      // 3️⃣ Call API
       final response = await apiService.sendMessage(body);
 
-      final chatResponse =
+      // 4️⃣ استخراج رد البوت
+      final botReply =
           response.candidates?.first.content?.parts?.first.text;
 
+      // 5️⃣ أضف رد البوت
       messages.add(
-        MessageModel(message: chatResponse ?? 'No response', isMe: false),
+        MessageModel(
+          message: botReply ?? 'No response',
+          isMe: false,
+        ),
       );
-      emit(ChatUpdated(messages));
+
+      // 6️⃣ تحديث UI
+      emit(ChatUpdated(List.from(messages)));
     } catch (e) {
       emit(ChatError(e.toString()));
     }
   }
 }
+
