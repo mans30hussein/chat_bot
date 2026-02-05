@@ -8,9 +8,7 @@ class ChatCubit extends Cubit<ChatState> {
   final ChatApiService apiService;
 
   ChatCubit({required this.apiService}) : super(ChatInitial());
-
   final List<MessageModel> messages = [];
-
   MessageModel? _lastUserMessage;
 
   Future<void> sendMessage(String text) async {
@@ -30,7 +28,9 @@ class ChatCubit extends Cubit<ChatState> {
     if (messages.isNotEmpty && !messages.last.isMe) {
       messages.removeLast();
     }
-    emit(ChatUpdated(List.from(messages)));
+    emit(ChatUpdated(
+      List.from(messages),
+    ));
 
     await _formRequest();
   }

@@ -1,12 +1,13 @@
 import 'package:chat_bot/core/style/app_styles.dart';
+import 'package:chat_bot/feature/chat/data/model/chat_message_model.dart/chat_message_model.dart';
 import 'package:chat_bot/feature/chat/presentation/manager/chat_message_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatMessageError extends StatelessWidget {
-  const ChatMessageError({super.key});
+  const ChatMessageError({super.key, required this.message});
 
-  ///final String error;
+  final MessageModel message;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -32,7 +33,7 @@ class ChatMessageError extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "Something went wrong",
+                  message.message,
                   textAlign: TextAlign.center,
                   style: AppStyles.styleBold13.copyWith(
                     color: Colors.red,

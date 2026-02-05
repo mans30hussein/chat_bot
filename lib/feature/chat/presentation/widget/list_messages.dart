@@ -13,18 +13,14 @@ class ListMessages extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ChatCubit, ChatState>(
       builder: (context, state) {
-        if (state is ChatError) {
-          return const ChatMessageError();
-        }
         final messages = context.watch<ChatCubit>().messages;
+        if (state is ChatError) {
+          return ChatMessageError(message: messages.last);
+        }
         return Expanded(
           child: ListView.builder(
             reverse: true,
-            itemCount:
-                messages.length +
-                (state is ChatLoading
-                    ? 1
-                    : 0), // this line get all messages + message loading
+            itemCount: messages.length + (state is ChatLoading ? 1 : 0),
             itemBuilder: (context, index) {
               if (state is ChatLoading && index == 0) {
                 return const TypingIndicatorBubble();
