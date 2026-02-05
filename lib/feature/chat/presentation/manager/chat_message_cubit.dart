@@ -11,6 +11,9 @@ class ChatCubit extends Cubit<ChatState> {
   List<MessageModel> messages = [];
 
   Future<void> sendMessage(String text) async {
+    emit(ChatLoading());
+    await Future.delayed(const Duration(seconds: 10));
+
     if (text.trim().isEmpty) return;
     messages.add(MessageModel(message: text, isMe: true));
     emit(ChatUpdated(messages));
@@ -19,22 +22,21 @@ class ChatCubit extends Cubit<ChatState> {
       "contents": [
         {
           "parts": [
-            {"text": text}
-          ]
-        }
-      ]
+            {"text": text},
+          ],
+        },
+      ],
     };
 
     try {
       final response = await apiService.sendMessage(body);
 
-      final chatResponse = response.candidates
-          ?.first.content
-          ?.parts
-          ?.first
-          .text;
+      final chatResponse =
+          response.candidates?.first.content?.parts?.first.text;
 
-      messages.add(MessageModel(message: chatResponse ?? 'No response', isMe: false));
+      messages.add(
+        MessageModel(message: chatResponse ?? 'No response', isMe: false),
+      );
       emit(ChatUpdated(messages));
     } catch (e) {
       emit(ChatError(e.toString()));

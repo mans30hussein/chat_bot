@@ -16,10 +16,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
   final TextEditingController controller = TextEditingController();
 
   @override
-void dispose() {
-  controller.dispose();
-  super.dispose();
-}
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,9 @@ void dispose() {
                     IconButton(
                       icon: Icon(Icons.send, color: Color(0xff3369FF)),
                       onPressed: () {
-                        context.read<ChatCubit>().sendMessage(controller.text);
+                        final text = controller.text.trim();
+                        if (text.isEmpty) return;
+                        context.read<ChatCubit>().sendMessage(text);
                         controller.clear();
                       },
                     ),

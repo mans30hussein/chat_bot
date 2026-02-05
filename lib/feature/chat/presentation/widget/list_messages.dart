@@ -16,7 +16,7 @@ class ListMessages extends StatelessWidget {
         final messages = context.read<ChatCubit>().messages;
 
         if (state is ChatLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: TypingIndicatorBubble());
         }
         if (state is ChatError) {
           return ChatMessageError();
@@ -27,7 +27,7 @@ class ListMessages extends StatelessWidget {
             reverse: true,
             itemCount: messages.length,
             itemBuilder: (context, index) {
-              final message = messages[messages.length - 1 - index];
+              final message = messages[ index];  // messages.length - 1 -
 
               return message.isMe
                   ? MyChatMessage(message: message)

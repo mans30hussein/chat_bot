@@ -3,5 +3,5 @@ class ApiConstants {
       'https://generativelanguage.googleapis.com/v1beta/models';
   static const String generateContent =
       '/gemini-3-flash-preview:generateContent';
-  static const String apiKey = 'AIzaSyC4aSIuq4D6GSVxugJ5ZiqE2tndhX6_U40';
+  static const String apiKey = 'AIzaSyC0ifVXqmFXWWQUIEbD5zbZLe3HL5Q9eXU';
 }
