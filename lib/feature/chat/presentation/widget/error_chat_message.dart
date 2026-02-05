@@ -1,14 +1,12 @@
 import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:chat_bot/feature/chat/presentation/manager/chat_message_cubit.dart';
-import 'package:chat_bot/feature/chat/presentation/widget/typing_indicator_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatMessageError extends StatelessWidget {
-  const ChatMessageError({super.key, required this.error});
+  const ChatMessageError({super.key});
 
-  final String error;
-
+  ///final String error;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -34,7 +32,7 @@ class ChatMessageError extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  error,
+                  "Something went wrong",
                   textAlign: TextAlign.center,
                   style: AppStyles.styleBold13.copyWith(
                     color: Colors.red,
@@ -50,7 +48,7 @@ class ChatMessageError extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    context.read<ChatCubit>().resetChat();
+                    context.read<ChatCubit>().retryLastMessage();
                   },
                   icon: Icon(Icons.refresh, color: Colors.white),
                   label: Text(

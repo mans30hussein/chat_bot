@@ -11,19 +11,38 @@ class ChatCubit extends Cubit<ChatState> {
 
   final List<MessageModel> messages = [];
 
+  MessageModel? _lastUserMessage;
+
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
-    messages.add(MessageModel(message: text, isMe: true));
+    final userMessage = MessageModel(message: text, isMe: true);
+    _lastUserMessage = userMessage; // save it for retry
+
+    messages.add(userMessage);
     emit(ChatUpdated(List.from(messages)));
 
+    await _formRequest();
+  }
+
+  Future<void> retryLastMessage() async {
+    if (_lastUserMessage == null) return;
+    if (messages.isNotEmpty && !messages.last.isMe) {
+      messages.removeLast();
+    }
+    emit(ChatUpdated(List.from(messages)));
+
+    await _formRequest();
+  }
+
+  Future<void> _formRequest() async {
     emit(ChatLoading());
 
     final body = {
       "contents": [
         {
           "parts": [
-            {"text": text},
+            {"text": _lastUserMessage?.message ?? ''},
           ],
         },
       ],
@@ -44,8 +63,5 @@ class ChatCubit extends Cubit<ChatState> {
     }
   }
 
-  Future<void> resetChat() async {
-    messages.clear();
-    emit(ChatUpdated(List.from(messages)));
-  }
+ 
 }

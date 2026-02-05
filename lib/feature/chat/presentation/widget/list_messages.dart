@@ -14,7 +14,7 @@ class ListMessages extends StatelessWidget {
     return BlocBuilder<ChatCubit, ChatState>(
       builder: (context, state) {
         if (state is ChatError) {
-          return ChatMessageError(error: "state.error");
+          return const ChatMessageError();
         }
         final messages = context.watch<ChatCubit>().messages;
         return Expanded(
