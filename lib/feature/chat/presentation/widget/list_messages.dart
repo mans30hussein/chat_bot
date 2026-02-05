@@ -30,7 +30,7 @@ class ListMessages extends StatelessWidget {
                 return const TypingIndicatorBubble();
               }
               final messageIndex = state is ChatLoading ? index - 1 : index;
-              final message = messages[messages.length - messageIndex - 1];
+              final message = messages[messages.length - 1 - messageIndex];
               return message.isMe
                   ? MyChatMessage(message: message)
                   : UserChatMessage(message: message);

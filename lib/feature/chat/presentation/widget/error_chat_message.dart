@@ -1,6 +1,8 @@
 import 'package:chat_bot/core/style/app_styles.dart';
+import 'package:chat_bot/feature/chat/presentation/manager/chat_message_cubit.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/typing_indicator_bubble.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatMessageError extends StatelessWidget {
   const ChatMessageError({super.key, required this.error});
@@ -47,7 +49,9 @@ class ChatMessageError extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<ChatCubit>().resetChat();
+                  },
                   icon: Icon(Icons.refresh, color: Colors.white),
                   label: Text(
                     "Retry",
@@ -65,4 +69,3 @@ class ChatMessageError extends StatelessWidget {
     );
   }
 }
-

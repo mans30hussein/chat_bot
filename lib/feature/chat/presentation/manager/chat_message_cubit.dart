@@ -14,13 +14,9 @@ class ChatCubit extends Cubit<ChatState> {
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
-    // 1️⃣ أضف رسالة المستخدم فورًا
-    messages.add(
-      MessageModel(message: text, isMe: true),
-    );
+    messages.add(MessageModel(message: text, isMe: true));
     emit(ChatUpdated(List.from(messages)));
 
-    // 2️⃣ أظهر typing indicator
     emit(ChatLoading());
 
     final body = {
@@ -34,26 +30,22 @@ class ChatCubit extends Cubit<ChatState> {
     };
 
     try {
-      // 3️⃣ Call API
       final response = await apiService.sendMessage(body);
 
-      // 4️⃣ استخراج رد البوت
-      final botReply =
-          response.candidates?.first.content?.parts?.first.text;
+      final botReply = response.candidates?.first.content?.parts?.first.text;
 
-      // 5️⃣ أضف رد البوت
       messages.add(
-        MessageModel(
-          message: botReply ?? 'No response',
-          isMe: false,
-        ),
+        MessageModel(message: botReply ?? 'No response', isMe: false),
       );
 
-      // 6️⃣ تحديث UI
       emit(ChatUpdated(List.from(messages)));
     } catch (e) {
       emit(ChatError(e.toString()));
     }
   }
-}
 
+  Future<void> resetChat() async {
+    messages.clear();
+    emit(ChatUpdated(List.from(messages)));
+  }
+}
