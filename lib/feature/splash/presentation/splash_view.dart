@@ -1,9 +1,11 @@
-import 'package:chat_bot/core/utils/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_bot/core/shared_pref/shared_pref.dart';
+import 'package:chat_bot/core/utils/assets.dart';
+import 'package:chat_bot/feature/chat/presentation/view/chat_view.dart';
+import 'package:chat_bot/feature/onbourding/presentation/onbourding_view.dart';
 
 class SplashScreen extends StatefulWidget {
-  final Widget next;
-  const SplashScreen({required this.next, super.key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -21,26 +23,46 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 5 ),
+      duration: const Duration(milliseconds: 1800), // reasonable duration
     );
 
-    _scaleAnimation = Tween<double>(
-      begin: 0.5,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _scaleAnimation = Tween<double>(begin: 0.6, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+    );
 
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    );
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 5), () {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => widget.next));
+    // Start navigation logic after animation
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _navigateToNextScreen();
+      }
     });
+  }
+
+  Future<void> _navigateToNextScreen() async {
+    // Small extra delay to make it feel smooth
+   // await Future.delayed(const Duration(milliseconds: 400));
+
+    if (!mounted) return;
+
+    final bool onboardingSeen = await AppPrefs.isOnboardingShown();
+
+    if (onboardingSeen) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const ChatView()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const OnbourdingView()),
+      );
+    }
   }
 
   @override
@@ -65,10 +87,12 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             );
           },
-          child: Image.asset(Assets.splashLogo, width: 120),
+          child: Image.asset(
+            Assets.splashLogo,
+            width: 140,
+          ),
         ),
       ),
     );
   }
 }
-

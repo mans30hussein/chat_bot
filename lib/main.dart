@@ -1,8 +1,9 @@
 import 'package:chat_bot/core/service_locator/service_locator.dart';
-import 'package:chat_bot/feature/chat/presentation/view/chat_view.dart';
+import 'package:chat_bot/feature/splash/presentation/splash_view.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
  await setupServiceLocator();
   runApp(const MyApp());
 }
@@ -16,7 +17,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
 
-      home: const ChatView(),
+      home: const SplashScreen(
+
+      ),
     );
   }
 }

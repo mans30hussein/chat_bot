@@ -23,9 +23,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChatCubit, ChatState>(
-      builder: (context, state) {
-        return Padding(
+    return 
+         Padding(
           padding: EdgeInsets.only(
             // left: 30,
             // right: 30,
@@ -85,7 +84,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
           ),
         );
-      },
-    );
+     
   }
 }

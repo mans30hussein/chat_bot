@@ -12,7 +12,6 @@ abstract class ChatApiService {
 
   factory ChatApiService(Dio dio, {String? baseUrl, ParseErrorLogger? errorLogger}) = _ChatApiService;
 
-  // هنا بنبعت body كـ Map<String, dynamic>
   @POST(ApiConstants.generateContent)
   Future<ChatResponse> sendMessage(
     @Body() Map<String, dynamic> body,

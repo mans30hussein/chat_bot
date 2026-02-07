@@ -11,15 +11,14 @@ class CustomAppbar extends StatelessWidget {
     return AppBar(
       leading: IconButton(
         onPressed: () {
-          Navigator.pop(context);
+          // Navigator.pop(context);
         },
         icon: Icon(Icons.arrow_back, color: Colors.black, size: 24),
       ),
       title: Row(
         children: [
           Image.asset(
-            Assets.robotIcon
-            ,
+            Assets.robotIcon,
             width: 24,
             height: 36,
             color: Color(0xff3369FF),
