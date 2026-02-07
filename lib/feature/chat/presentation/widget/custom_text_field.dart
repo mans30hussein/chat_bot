@@ -22,7 +22,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return 
          Padding(
           padding: EdgeInsets.only(
