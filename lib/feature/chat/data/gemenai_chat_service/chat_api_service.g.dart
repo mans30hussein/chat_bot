@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'chat_api_service.dart';
+part of 'gemenai_chat_service.dart';
 
 // dart format off
 

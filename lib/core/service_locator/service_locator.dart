@@ -1,4 +1,4 @@
-import 'package:chat_bot/feature/chat/data/chat_api_servvice/chat_api_service.dart';
+import 'package:chat_bot/feature/chat/data/gemenai_chat_service/gemenai_chat_service.dart';
 import 'package:chat_bot/feature/chat/presentation/manager/chat_message_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';

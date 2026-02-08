@@ -1,5 +1,4 @@
 import 'package:chat_bot/core/style/app_styles.dart';
-import 'package:chat_bot/feature/chat/presentation/manager/chat_message_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
