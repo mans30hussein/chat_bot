@@ -1,7 +1,6 @@
 import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../manager/chat_message_cubit.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -22,6 +21,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context){
+    final chatCubit = context.read<ChatCubit>();
     return 
          Padding(
           padding: EdgeInsets.only(
@@ -67,22 +67,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 fillColor: Colors.white,
                 filled: true,
 
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(color: Colors.white),
-                ),
+                border: BiuldOutLineBorder(),
+                focusedBorder: BiuldOutLineBorder(),
+                enabledBorder: BiuldOutLineBorder(),
               ),
             ),
           ),
         );
      
+  }
+
+  OutlineInputBorder BiuldOutLineBorder() {
+    return OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(color: Colors.white),
+              );
   }
 }
