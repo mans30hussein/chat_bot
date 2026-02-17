@@ -1,67 +1,53 @@
-import 'package:bloc/bloc.dart';
-import 'package:chat_bot/feature/chat/data/gemenai_chat_service/gemenai_chat_service.dart';
+import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_request.dart';
+import 'package:chat_bot/feature/chat/domain/chat_repo/chat_repo.dart';
 import 'package:chat_bot/feature/chat/presentation/manager/chat_message_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/model/chat_message_model.dart/chat_message_model.dart';
 
 class ChatCubit extends Cubit<ChatState> {
-  final ChatApiService apiService;
+  ChatCubit({required this.chatRepo}) : super(ChatInitial());
 
-  ChatCubit({required this.apiService}) : super(ChatInitial());
-  final List<MessageModel> messages = [];
-  MessageModel? _lastUserMessage;
+  final ChatRepo chatRepo;
 
-  Future<void> sendMessage(String text) async {
-    if (text.trim().isEmpty) return;
+  final List<Content> _conversation = [];
 
-    final userMessage = MessageModel(message: text, isMe: true);
-    _lastUserMessage = userMessage; // save it for retry
+  List<Content> get conversation => List.unmodifiable(_conversation);
 
-    messages.add(userMessage);
-    emit(ChatUpdated(List.from(messages)));
+  Future<void> sendMessage(String userText) async {
+    if (userText.trim().isEmpty) return;
 
-    await _formRequest();
-  }
-
-  Future<void> retryLastMessage() async {
-    if (_lastUserMessage == null) return;
-    if (messages.isNotEmpty && !messages.last.isMe) {
-      messages.removeLast();
-    }
-    emit(ChatUpdated(
-      List.from(messages),
-    ));
-
-    await _formRequest();
-  }
-
-  Future<void> _formRequest() async {
+    final userContent = Content(
+      role: 'user',
+      parts: [Part(text: userText)],
+    );
+    _conversation.add(userContent);
+    emit(ChatUpdated(messages: List.from(_conversation)));
     emit(ChatLoading());
 
-    final body = {
-      "contents": [
-        {
-          "parts": [
-            {"text": _lastUserMessage?.message ?? ''},
-          ],
-        },
-      ],
-    };
-
     try {
-      final response = await apiService.sendMessage(body);
+      final response = await chatRepo.sendMessages(contents: _conversation);
 
-      final botReply = response.candidates?.first.content?.parts?.first.text;
+      final aiResponse = response.candidates
+              ?.firstOrNull
+              ?.content
+              ?.parts
+              ?.firstOrNull
+              ?.text ??
+          '';
 
-      messages.add(
-        MessageModel(message: botReply ?? 'No response', isMe: false),
-      );
+      if (aiResponse.isNotEmpty) {
+        final modelContent = Content(
+          role: 'model',
+          parts: [Part(text: aiResponse)],
+        );
 
-      emit(ChatUpdated(List.from(messages)));
+        _conversation.add(modelContent);
+        emit(ChatUpdated(messages: List.from(_conversation)));
+      } else {
+        emit(ChatError("Some this is wrong"));
+      }
     } catch (e) {
-      emit(ChatError(e.toString()));
+      emit(ChatError('Something went wrong'));
     }
   }
-
- 
 }
