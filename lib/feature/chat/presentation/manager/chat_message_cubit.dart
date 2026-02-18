@@ -1,53 +1,24 @@
-import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_request.dart';
+import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response.dart';
 import 'package:chat_bot/feature/chat/domain/chat_repo/chat_repo.dart';
 import 'package:chat_bot/feature/chat/presentation/manager/chat_message_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-class ChatCubit extends Cubit<ChatState> {
-  ChatCubit({required this.chatRepo}) : super(ChatInitial());
+class SendMessageCubit extends Cubit<SendMessageState> {
+  SendMessageCubit({required this.chatRepo}) : super(SendMessageInitial());
 
   final ChatRepo chatRepo;
 
-  final List<Content> _conversation = [];
-
-  List<Content> get conversation => List.unmodifiable(_conversation);
-
-  Future<void> sendMessage(String userText) async {
-    if (userText.trim().isEmpty) return;
-
-    final userContent = Content(
-      role: 'user',
-      parts: [Part(text: userText)],
-    );
-    _conversation.add(userContent);
-    emit(ChatUpdated(messages: List.from(_conversation)));
-    emit(ChatLoading());
+  Future<void> sendMessage({required List<ChatMessageModel> messages}) async {
+    emit(SendMessageLoading());
 
     try {
-      final response = await chatRepo.sendMessages(contents: _conversation);
+      var chatMessage = await chatRepo.sendMessages(
+        messages: messages,
+      );
 
-      final aiResponse = response.candidates
-              ?.firstOrNull
-              ?.content
-              ?.parts
-              ?.firstOrNull
-              ?.text ??
-          '';
-
-      if (aiResponse.isNotEmpty) {
-        final modelContent = Content(
-          role: 'model',
-          parts: [Part(text: aiResponse)],
-        );
-
-        _conversation.add(modelContent);
-        emit(ChatUpdated(messages: List.from(_conversation)));
-      } else {
-        emit(ChatError("Some this is wrong"));
-      }
+      emit(SendMessageUpdated(messages:chatMessage ));
     } catch (e) {
-      emit(ChatError('Something went wrong'));
+      emit(SendMessageError('Something went wrong'));
     }
   }
 }

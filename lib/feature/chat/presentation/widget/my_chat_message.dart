@@ -1,19 +1,17 @@
 import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/model/chat_model/gemini_chat_request.dart';
-
 class MyChatMessage extends StatelessWidget {
   const MyChatMessage({super.key, required this.message});
 
-  final Content message;
+  final String message;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {          // alignment: message.role == 'user'
+                                                // ? Alignment.centerRight
+                                                // : Alignment.centerLeft,
     return Align(
-      alignment: message.role == 'user'
-          ? Alignment.centerRight
-          : Alignment.centerLeft,
+      alignment: Alignment.centerRight,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 22, vertical: 18),
         margin: EdgeInsets.only(top: 24),
@@ -27,7 +25,7 @@ class MyChatMessage extends StatelessWidget {
           ),
         ),
         child: Text(
-          message.parts.first.text ?? '',
+          message,
           style: AppStyles.styleBold13.copyWith(
             color: Colors.white,
             fontSize: 16,

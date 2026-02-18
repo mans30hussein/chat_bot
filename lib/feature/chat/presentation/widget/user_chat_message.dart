@@ -2,13 +2,11 @@ import 'package:chat_bot/core/utils/assets.dart';
 import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/model/chat_model/gemini_chat_request.dart';
-
 
 class UserChatMessage extends StatelessWidget {
   const UserChatMessage({super.key, required this.message});
 
-  final Content message;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class UserChatMessage extends StatelessWidget {
               ),
             ),
             child: Text(
-              message.parts.first.text ?? '',
+              message,
               style: AppStyles.styleBold13.copyWith(
                 color: Colors.black,
                 fontSize: 16,

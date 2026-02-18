@@ -1,18 +1,18 @@
  
-import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_request.dart';
+import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response.dart';
 
 
-abstract class ChatState {}
+abstract class SendMessageState {}
 
-class ChatInitial extends ChatState {}
+class SendMessageInitial extends SendMessageState {}
 
-class ChatLoading extends ChatState {}
+class SendMessageLoading extends SendMessageState {}
 
-class ChatUpdated extends ChatState {
-  final List<Content> messages;
-  ChatUpdated({required this.messages});
+class SendMessageUpdated extends SendMessageState {
+  final ChatMessageModel messages;
+  SendMessageUpdated({required this.messages});
 }
-class ChatError extends ChatState {
+class SendMessageError extends SendMessageState {
   final String error;
-  ChatError(this.error);
+  SendMessageError(this.error);
 }

@@ -21,5 +21,5 @@ Future<void> setupServiceLocator() async {
   );
 
   /// Chat Cubit
-  getIt.registerFactory<ChatCubit>(() => ChatCubit(chatRepo: getIt()));
+  getIt.registerFactory<SendMessageCubit>(() => SendMessageCubit(chatRepo: getIt()));
 }
