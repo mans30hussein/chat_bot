@@ -1,6 +1,7 @@
 import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response.dart';
 import 'package:chat_bot/feature/chat/presentation/manager/chat_message_cubit.dart';
+import 'package:chat_bot/feature/chat/presentation/manager/chat_message_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,11 +57,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   icon: Icon(Icons.send, color: Color(0xff3369FF)),
                   onPressed: () {
                     if (controller.text.isNotEmpty) {
+                      var sendMessageCubit = context.read<SendMessageCubit>();
                       var message = ChatMessageModel.fromUserMessage(
                         controller.text,
                       );
-                      widget.conversation.add(message);
-                      context.read<SendMessageCubit>().sendMessage(
+                      if (sendMessageCubit.state is! SendMessageError) {
+                        widget.conversation.add(message);
+                      } else {
+                        widget.conversation.removeLast();
+                        widget.conversation.add(message);
+                      }
+                     sendMessageCubit.sendMessage(
                         messages: widget.conversation,
                       );
                       controller.clear();

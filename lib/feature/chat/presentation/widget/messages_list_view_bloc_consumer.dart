@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MessagesListViewBlocConsumer extends StatelessWidget {
   MessagesListViewBlocConsumer({super.key, required this.conversation});
   final List<ChatMessageModel> conversation ;
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SendMessageCubit, SendMessageState>(
@@ -18,7 +17,11 @@ class MessagesListViewBlocConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return MessagesListView(conversation: conversation);
+
+        return MessagesListView(
+         isFailure: state is SendMessageError,
+          isLoading: state is SendMessageLoading,
+          conversation: conversation);
       },
     );
   }

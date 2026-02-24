@@ -2,16 +2,17 @@ import 'package:chat_bot/core/style/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class ChatMessageError extends StatelessWidget {
-  const ChatMessageError({super.key, });
+  const ChatMessageError({super.key, required this.lastMessage, this.onPressed});
 
- // final MessageModel message;
+  final String lastMessage;
+  final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Expanded(child: SizedBox()),
+          // Expanded(child: SizedBox()),
           Container(
             alignment: Alignment.centerRight,
             padding: EdgeInsets.symmetric(horizontal: 22, vertical: 4),
@@ -30,7 +31,7 @@ class ChatMessageError extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "message.message",
+                  lastMessage,
                   textAlign: TextAlign.center,
                   style: AppStyles.styleBold13.copyWith(
                     color: Colors.red,
@@ -45,9 +46,7 @@ class ChatMessageError extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: () {
-                    //context.read<ChatCubit>().retryLastMessage();
-                  },
+                  onPressed: onPressed,
                   icon: Icon(Icons.refresh, color: Colors.white),
                   label: Text(
                     "Retry",
