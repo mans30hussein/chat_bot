@@ -28,6 +28,7 @@ class GemenaiChatRepoImpl implements ChatRepo {
 
     try {
       final result = _chatApiService.sendMessages(messages: messages);
+     
       return result;
     } catch (e) {
       throw ServerFailure(e.toString());
