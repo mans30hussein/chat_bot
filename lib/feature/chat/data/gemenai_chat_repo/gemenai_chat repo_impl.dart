@@ -1,4 +1,3 @@
-import 'package:chat_bot/core/failure/failure.dart';
 import 'package:chat_bot/feature/chat/data/gemini_chat_service/gemini_chat_service.dart';
 import 'package:chat_bot/feature/chat/domain/chat_repo/chat_repo.dart';
 
@@ -11,27 +10,36 @@ class GemenaiChatRepoImpl implements ChatRepo {
     : _chatApiService = chatApiService;
 
   @override
-  Future< ChatMessageModel> sendMessages({
+  Future<ChatMessageModel> sendMessages({
     required List<ChatMessageModel> messages,
-  }) {
-    if(messages.isEmpty){
+  }) async {
+    if (messages.isEmpty) {
       throw ArgumentError('No messages provided');
-    }else if(messages.length < 2){
-      throw ArgumentError('At least two messages are required');
-    }else if(messages.last.role != 'user'){
+    } else if (messages.length < 1) {
+      throw ArgumentError('At least one message is required');
+    } else if (messages.last.role != 'user') {
       throw ArgumentError('Last message must be user');
-    }else if(messages.last.text.isEmpty){
+    } else if (messages.last.text.isEmpty) {
       throw ArgumentError('Last message content must not be empty');
-    }else if(messages.last.text.trim().isEmpty){
+    } else if (messages.last.text.trim().isEmpty) {
       throw ArgumentError('Last message content must not be empty');
     }
 
-    try {
-      final result = _chatApiService.sendMessages(messages: messages);
-     
-      return result;
-    } catch (e) {
-      throw ServerFailure(e.toString());
+    final result = await _chatApiService.sendMessages(messages: messages);
+
+    if (result.role == null || result.role!.trim().isEmpty) {
+      throw StateError('missing role in response');
     }
+    if (result.parts == null || result.parts!.isEmpty) {
+      throw StateError('missing parts in response');
+    }
+    if (result.parts!.first.text == null || result.parts!.first.text!.isEmpty) {
+      throw StateError('parts cannot be empty');
+    }
+    if (result.role != 'model') {
+      throw StateError('role must be model');
+    }
+
+    return result;
   }
 }
