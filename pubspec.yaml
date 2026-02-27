@@ -27,6 +27,7 @@ dependencies:
   http: ^1.6.0
   dartz: ^0.10.1
   mocktail: ^1.0.4
+  retry: ^3.1.2
 
 dev_dependencies:
   flutter_test:
