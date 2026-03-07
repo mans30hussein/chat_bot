@@ -1,10 +1,10 @@
-import 'package:chat_bot/core/validation/chat_repo_validation.dart';
 import 'package:chat_bot/feature/chat/data/gemini_chat_service/gemini_chat_service.dart';
 import 'package:chat_bot/feature/chat/domain/chat_repo/chat_repo.dart';
 
+import '../../../../core/mixin/chat_service_validation_mixin.dart';
 import '../model/chat_model/gemini_chat_response.dart';
 
-class GemenaiChatRepoImpl with ChatRepoValidation implements ChatRepo  {
+class GemenaiChatRepoImpl with ChatServiceValidationMixin implements ChatRepo {
   final ChatApiService _chatApiService;
 
   GemenaiChatRepoImpl({required ChatApiService chatApiService})
@@ -14,14 +14,12 @@ class GemenaiChatRepoImpl with ChatRepoValidation implements ChatRepo  {
   Future<ChatMessageModel> sendMessages({
     required List<ChatMessageModel> messages,
   }) async {
-    input_validation(messages);
+    inputValidation(messages);
 
     final result = await _chatApiService.sendMessages(messages: messages);
 
-  outputValidation(result);
+    outputValidation(result);
 
     return result;
   }
-
-  
 }
