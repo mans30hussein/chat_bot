@@ -13,7 +13,7 @@ void main() {
     mockedApiClient = MockedApiClient();
     chatApiService = ChatApiService(mockedApiClient);
   });
-  final messages = ChatMessageModel(parts: [ChatMessagePartModel(text: 'Hi there')], role: 'model');
+  // final messages = ChatMessageModel(parts: [ChatMessagePartModel(text: 'Hi there')], role: 'model');
   final successResponse = {
     'candidates': [
       {

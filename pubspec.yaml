@@ -18,19 +18,18 @@ dependencies:
   json_annotation: ^4.10.0
   retrofit_generator: ^10.2.1
   build_runner: ^2.10.5
-  dia: ^0.1.5
   bloc: ^9.2.0
   flutter_bloc: ^9.1.1
   get_it: ^9.2.0
   shared_preferences: ^2.5.4
   firebase_core: ^4.4.0
-  http: ^1.6.0
   dartz: ^0.10.1
   mocktail: ^1.0.4
-  retry: ^3.1.2
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
 
 flutter:

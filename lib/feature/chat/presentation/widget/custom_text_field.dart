@@ -37,6 +37,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         elevation: 04,
         //shadowColor: Colors.transparent,
         child: TextField(
+          key: Key("text_field_send_messages"),
           controller: controller,
           keyboardType: TextInputType.multiline,
           style: AppStyles.styleBold13,

@@ -13,7 +13,7 @@ List<ChatMessageModel> conversation = [];
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SendMessageCubit(chatRepo: getIt<GemenaiChatRepoImpl>()),
+      create: (context) => getIt<SendMessageCubit>(), // SendMessageCubit(chatRepo: getIt<GemenaiChatRepoImpl>())
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
