@@ -1,5 +1,5 @@
 import 'package:chat_bot/core/network/api_client.dart';
-import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response.dart';
+import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response.dart' show ChatMessageModel, ChatMessagePartModel;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:dio/dio.dart';
@@ -13,63 +13,128 @@ void main() {
     mockedApiClient = MockedApiClient();
     chatApiService = ChatApiService(mockedApiClient);
   });
+  final messages = ChatMessageModel(parts: [ChatMessagePartModel(text: 'Hi there')], role: 'model');
+  final successResponse = {
+    'candidates': [
+      {
+        'content': {
+          'parts': [
+            {'text': 'Hi there'},
+          ],
+          'role': 'model',
+        },
+      },
+    ],
+  };
 
-  group("check retry logic excute 3 times  ", () {
-     test('should retry 3 times on connection timeout', () async {
-  int callCount = 0;
-
-  when(() => mockedApiClient.post(
-    urlEndPoint: any(named: 'urlEndPoint'),
-    data: any(named: 'data'),
-    queryParameters: any(named: 'queryParameters'),
-  )).thenAnswer((_) async {
-    callCount++;
-    throw DioException(
-      type: DioExceptionType.connectionTimeout ,
-      requestOptions: RequestOptions(path: ''),
+  group("Test Retry Logic", () {
+    test(
+      "fails all 3 attempts — throws last exception and post called exactly 3 attempts",
+      () async {
+        when(
+          () => mockedApiClient.post(
+            urlEndPoint: any(named: 'urlEndPoint'),
+            data: any(named: 'data'),
+          ),
+        ).thenAnswer((_) async {
+          throw Exception();
+        });
+        await expectLater(
+          () async => await chatApiService.sendMessages(messages: []),
+          throwsException,
+        );
+        verify(
+          () => mockedApiClient.post(
+            urlEndPoint: any(named: 'urlEndPoint'),
+            data: any(named: 'data'),
+          ),
+        ).called(3);
+      },
     );
-  });
+    test("succed on Third attempt", () async {
+      var count = 0;
+      when(
+        () => mockedApiClient.post(
+          urlEndPoint: any(named: 'urlEndPoint'),
+          data: any(named: 'data'),
+        ),
+      ).thenAnswer((_) async {
+        if (count == 2) {
+          return Response(
+            data: successResponse,
+            statusCode: 200,
+            requestOptions: RequestOptions(path: ''),
+          );
+        }
+         count++;
+       
+        throw Exception();
+      });
+      var result = await chatApiService.sendMessages(messages: []);
 
-  try {
-    await chatApiService.sendMessages(messages: [
-      ChatMessageModel.fromUserMessage('Hello')
-    ]);
-  } catch (_) {}
+      expect(result, isA<ChatMessageModel>());
+      verify(
+        () => mockedApiClient.post(
+          urlEndPoint: any(named: 'urlEndPoint'),
+          data: any(named: 'data'),
+        ),
+      ).called(3);
+    });
+    test("succed on two attempt", () async {
+      var count = 0;
+      when(
+        () => mockedApiClient.post(
+          urlEndPoint: any(named: 'urlEndPoint'),
+          data: any(named: 'data'),
+        ),
+      ).thenAnswer((_) async {
+        if (count == 1) {
+          return Response(
+            data: successResponse,
+            statusCode: 200,
+            requestOptions: RequestOptions(path: ''),
+          );
+        }
+         count++;
+       
+        throw Exception();
+      });
+      var result = await chatApiService.sendMessages(messages: []);
 
-  expect(callCount, 3);
-    verify(() => mockedApiClient.post(
-        urlEndPoint: any(named: 'urlEndPoint'),
-        data: any(named: 'data'),
-      )).called(3);  
-});
+      expect(result, isA<ChatMessageModel>());
+      verify(
+        () => mockedApiClient.post(
+          urlEndPoint: any(named: 'urlEndPoint'),
+          data: any(named: 'data'),
+        ),
+      ).called(2);
+    });
+     test("succed on first attempt", () async {
+      var count = 0;
+      when(
+        () => mockedApiClient.post(
+          urlEndPoint: any(named: 'urlEndPoint'),
+          data: any(named: 'data'),
+        ),
+      ).thenAnswer(
+        (_) async {
+       
+          return Response(
+            data: successResponse,
+            statusCode: 200,
+            requestOptions: RequestOptions(path: ''),
+          );
+        });
+      var result = await chatApiService.sendMessages(messages: []);
 
-   
-
-  
-test('should not retry on badResponse error', () async {
-
-  when(() => mockedApiClient.post(
-        urlEndPoint: any(named: 'urlEndPoint'),
-        data: any(named: 'data'),
-      )).thenThrow(
-    DioException(
-      type: DioExceptionType.badResponse,
-      requestOptions: RequestOptions(path: ''),
-    ),
-  );
-
-  expect(
-    () => chatApiService.sendMessages(
-      messages: [ChatMessageModel.fromUserMessage("hi")],
-    ),
-    throwsA(isA<DioException>()),
-  );
-
-  verify(() => mockedApiClient.post(
-        urlEndPoint: any(named: 'urlEndPoint'),
-        data: any(named: 'data'),
-      )).called(1);  
-});
+      expect(result, isA<ChatMessageModel>());
+      verify(
+        () => mockedApiClient.post(
+          urlEndPoint: any(named: 'urlEndPoint'),
+          data: any(named: 'data'),
+        ),
+      ).called(1);
+    });
   });
 }
 
