@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "dev": "chat-bot-dev-mh",
+    "stg": "chatbot-stg-mh"
+  },
+  "targets": {},
+  "etags": {}
+}

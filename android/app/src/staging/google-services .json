@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "259006451810",
+    "project_id": "chat-bot-stg-mh",
+    "storage_bucket": "chat-bot-stg-mh.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259006451810:android:038952855c522fe6f5413b",
+        "android_client_info": {
+          "package_name": "com.example.chat_bot.stg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHKstDxIfA_iAJyPA6_5sLU9hh7tfoLHM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "146090691077",
+    "project_id": "chat-bot-dev-mh",
+    "storage_bucket": "chat-bot-dev-mh.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146090691077:android:cc652ce85f2946f6eeaa6c",
+        "android_client_info": {
+          "package_name": "com.example.chat_bot.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1PfjIM5ii4nUGhpOB_dvE7aVgVh7yfBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146090691077:android:cc2ed6f98fb03561eeaa6c",
+        "android_client_info": {
+          "package_name": "com.mansour.chatbot.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1PfjIM5ii4nUGhpOB_dvE7aVgVh7yfBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
