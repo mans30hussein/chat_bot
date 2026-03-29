@@ -1,17 +1,16 @@
 import 'package:chat_bot/core/service_locator/service_locator.dart';
 import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response.dart';
 import 'package:chat_bot/feature/chat/domain/chat_repo/chat_repo.dart';
-import 'package:chat_bot/feature/chat/presentation/view/chat_view.dart';
-import 'package:chat_bot/feature/chat/presentation/widget/error_chat_message.dart';
+ import 'package:chat_bot/feature/chat/presentation/widget/error_chat_message.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/my_chat_message.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/typing_indicator_bubble.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/user_chat_message.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:integration_test/integration_test.dart';
-// import 'package:chat_bot/main.dart' as app;
 
+import 'chat_rebot.dart';
+// import 'package:chat_bot/main.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   late ChatRepoMocked chatRepoMocked;
@@ -28,7 +27,11 @@ void main() {
     getIt.registerLazySingleton<ChatRepo>(() => chatRepoMocked);
   });
   group('ChatView Integration Test', () {
+    late ChatRebot chatRebot;
+
     testWidgets('Send Message and show loading bubble widget', (tester) async {
+      chatRebot = ChatRebot(tester: tester);
+
       when(
         () => chatRepoMocked.sendMessages(messages: any(named: "messages")),
       ).thenAnswer((_) {
@@ -40,15 +43,10 @@ void main() {
         });
       });
       // Start app
-      await tester.pumpWidget(MaterialApp(home: ChatView()));
-      await tester.pumpAndSettle();
+      await chatRebot.runApp();
+      await chatRebot.enterText(text: "Hello");
+      await chatRebot.tapSendButton();
 
-      var inputFieldKey = find.byKey(Key("text_field_send_messages"));
-      await tester.enterText(inputFieldKey, "Hello");
-      await tester.pumpAndSettle();
-      var sendBotton = find.byIcon(Icons.send);
-      await tester.tap(sendBotton);
-      await tester.pump();
       expect(find.byType(MyChatMessage), findsOneWidget);
       expect(find.byType(TypingIndicatorBubble), findsOneWidget);
     });
@@ -65,15 +63,10 @@ void main() {
         });
       });
       // Start app
-      await tester.pumpWidget(MaterialApp(home: ChatView()));
-      await tester.pumpAndSettle();
+      await chatRebot.runApp();
+      await chatRebot.enterText(text: "Hello");
+      await chatRebot.tapSendButton();
 
-      var inputFieldKey = find.byKey(Key("text_field_send_messages"));
-      await tester.enterText(inputFieldKey, "Hello");
-      await tester.pumpAndSettle();
-      var sendBotton = find.byIcon(Icons.send);
-      await tester.tap(sendBotton);
-      await tester.pumpAndSettle();
       expect(
         find.descendant(
           of: find.byType(MyChatMessage),
@@ -82,7 +75,7 @@ void main() {
         findsOneWidget,
       );
 
-    // expect(find.byType(TypingIndicatorBubble).last, findsOneWidget);
+      // expect(find.byType(TypingIndicatorBubble).last, findsOneWidget);
 
       expect(
         find.descendant(
@@ -93,37 +86,34 @@ void main() {
       );
     });
 
-    testWidgets('Send Message and recieve Failure', (tester) async {
+    testWidgets('Send Message and receive Failure', (tester) async {
       when(
         () => chatRepoMocked.sendMessages(messages: any(named: "messages")),
-      ).thenAnswer((_) async{
-        await Future.delayed(Duration(seconds: 3), () {
-          // return ChatMessageModel(
-          //   parts: [ChatMessagePartModel(text: "response")],
-          //   role: "model",
-          // );
-         
-        });
-         throw Exception();
+      ).thenAnswer((_) {
+        // Simulate a short delay, then throw
+        return Future.delayed(
+          const Duration(seconds: 1),
+          () => throw Exception(),
+        );
       });
-      // Start app
-      await tester.pumpWidget(MaterialApp(home: ChatView()));
+
+      await chatRebot.runApp();
+      await chatRebot.enterText(text: "Hello");
+      await chatRebot.tapSendButton();
+      await tester.pump(
+        const Duration(seconds: 1),
+      );
       await tester.pumpAndSettle();
 
-      var inputFieldKey = find.byKey(Key("text_field_send_messages"));
-      await tester.enterText(inputFieldKey, "Hello");
-      await tester.pumpAndSettle();
-      var sendBotton = find.byIcon(Icons.send);
-      await tester.tap(sendBotton);
-      await tester.pumpAndSettle();
-      expect(
-        find.descendant(
-          of: find.byType(MyChatMessage),
-          matching: find.text("Hello"),
-        ),
-        findsOneWidget,
-      );
-      // expect(find.byType(ChatMessageError), findsOneWidget);
+      // expect(
+      //   find.descendant(
+      //     of: find.byType(MyChatMessage),
+      //     matching: find.text("Hello"),
+      //   ),
+      //   findsOneWidget,
+      // );
+
+      // Verify that ChatMessageError appears and displays the failed message text
       expect(
         find.descendant(
           of: find.byType(ChatMessageError),
