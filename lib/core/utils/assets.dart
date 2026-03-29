@@ -1,5 +1,5 @@
 class Assets {
-  static const String splashLogo = 'assets/images/splash_logo.png';
+  static const String appLogo = 'assets/images/app_logo.png';
   static const String onbourding = 'assets/images/onbourding.png';
   static const String robotIcon = 'assets/images/icon.png';
   static const String explain = 'assets/images/explain.png';
