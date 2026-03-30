@@ -42,7 +42,7 @@ android {
         }
         create("staging") {
             dimension = "version"
-            applicationIdSuffix = ".staging"
+            applicationIdSuffix = ".stg"
             versionNameSuffix = "-staging"
         }
         create("production") {
