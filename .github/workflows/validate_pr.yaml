@@ -50,41 +50,23 @@ jobs:
         working-directory: android
         run: bundle exec fastlane validate_pr
 
-jobs:
+
   ios_validate_pr:
     runs-on: macos-latest
 
     steps:
-      # 1. clolone repository
+      # 1. Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
         
-      # 2. Java (ios build requirement)
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-
-      # 3. Flutter (stable + cache)
+      # 2. Flutter (stable + cache)
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
 
-      # 4. Cache Gradle (faster builds 🚀)
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            gradle-${{ runner.os }}
-
-      # 5. Ruby + Fastlane
+      # 3. Ruby + Fastlane
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -92,7 +74,7 @@ jobs:
           bundler-cache: true
           working-directory: ios
 
-      # 7. Run Fastlane lane
+      # 4. Run Fastlane lane
       - name: Run fastlane validate_pr (analyze, test, build ipa)
         working-directory: ios
         run: bundle exec fastlane validate_pr
