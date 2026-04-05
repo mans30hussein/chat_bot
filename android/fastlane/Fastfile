@@ -16,23 +16,14 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+  desc "Run static analysis, unit/widget tests, and a dev-flavor APK build for PR checks"
+  lane :validate_pr do
+    flutter_root = File.expand_path("../../",__dir__)
+    Dir.chdir(flutter_root) do
+      sh("flutter pub get")
+      sh("flutter analyze")
+      sh("flutter test")
+      sh("flutter build apk --flavor dev -t lib/main_dev.dart")
+    end
   end
 end

@@ -1,5 +1,5 @@
 import 'package:chat_bot/core/network/api_client.dart';
-import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response.dart' show ChatMessageModel, ChatMessagePartModel;
+import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:dio/dio.dart';
@@ -66,8 +66,8 @@ void main() {
             requestOptions: RequestOptions(path: ''),
           );
         }
-         count++;
-       
+        count++;
+
         throw Exception();
       });
       var result = await chatApiService.sendMessages(messages: []);
@@ -95,8 +95,8 @@ void main() {
             requestOptions: RequestOptions(path: ''),
           );
         }
-         count++;
-       
+        count++;
+
         throw Exception();
       });
       var result = await chatApiService.sendMessages(messages: []);
@@ -109,22 +109,19 @@ void main() {
         ),
       ).called(2);
     });
-     test("succed on first attempt", () async {
-      var count = 0;
+    test("succed on first attempt", () async {
       when(
         () => mockedApiClient.post(
           urlEndPoint: any(named: 'urlEndPoint'),
           data: any(named: 'data'),
         ),
-      ).thenAnswer(
-        (_) async {
-       
-          return Response(
-            data: successResponse,
-            statusCode: 200,
-            requestOptions: RequestOptions(path: ''),
-          );
-        });
+      ).thenAnswer((_) async {
+        return Response(
+          data: successResponse,
+          statusCode: 200,
+          requestOptions: RequestOptions(path: ''),
+        );
+      });
       var result = await chatApiService.sendMessages(messages: []);
 
       expect(result, isA<ChatMessageModel>());

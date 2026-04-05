@@ -1,5 +1,6 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:chat_bot/core/service_locator/service_locator.dart';
-import 'package:chat_bot/feature/chat/data/gemenai_chat_repo/gemenai_chat%20repo_impl.dart';
 import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response.dart';
 import 'package:chat_bot/feature/chat/presentation/manager/chat_message_cubit.dart';
 import 'package:chat_bot/feature/chat/presentation/widget/custom_text_field.dart';
