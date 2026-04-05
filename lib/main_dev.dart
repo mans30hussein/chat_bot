@@ -6,3 +6,4 @@ void main(){
   AppConfig appConfig = AppConfig(apiBaseUrl: ApiConstants.baseUrl , environment: AppEnvironment.dev);
   runChatApp(appConfig: appConfig);
 }
+// 2:30 hours
