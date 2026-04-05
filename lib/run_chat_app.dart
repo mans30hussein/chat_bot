@@ -5,7 +5,7 @@ import 'package:chat_bot/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void runChatApp({ required AppConfig appConfig}) async{
+void runChatApp({ required AppConfig appConfig ,}) async{
   WidgetsFlutterBinding.ensureInitialized();
   getIt.registerLazySingleton(() => appConfig);
  await setupServiceLocator(); 
