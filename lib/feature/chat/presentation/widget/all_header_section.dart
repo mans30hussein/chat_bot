@@ -21,7 +21,7 @@ class AllHeaderSection extends StatelessWidget {
         HeaderSection(
           typeList: sectionEditPrompotItemModel,
           image: Assets.edit,
-          title: 'Edit',
+          title: 'edit',
         ),
         HeaderSection(
           typeList: sectionTranslatePrompotItemModel,
