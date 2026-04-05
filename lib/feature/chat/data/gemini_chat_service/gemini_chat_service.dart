@@ -4,8 +4,12 @@ import 'package:chat_bot/feature/chat/data/model/chat_model/gemini_chat_response
 
 class ChatApiService {
   final ApiClient apiClient;
+  final Duration retryDelay;
 
-  ChatApiService(this.apiClient);
+  ChatApiService(
+    this.apiClient, {
+    this.retryDelay = const Duration(seconds: 1),
+  });
 
   Future<ChatMessageModel> sendMessages({
     required List<ChatMessageModel> messages,
@@ -25,9 +29,13 @@ class ChatApiService {
         );
       } catch (e) {
         lastError = e;
+        if (attempt < maxRetries - 1) {
+          await Future.delayed(retryDelay);
+        }
       }
     }
 
-    throw lastError ?? Exception('Failed to send messages after $maxRetries attempts');
+    throw lastError ??
+        Exception('Failed to send messages after $maxRetries attempts');
   }
 }
