@@ -7,25 +7,21 @@ jobs:
   android_validate_pr:
     runs-on: ubuntu-latest
     steps:
-      # 1. Clone repo
       - name: Checkout code
         uses: actions/checkout@v4
       
-       # 2. Setup Java (Android يحتاجه)
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 3. Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
       
-      # setup ruby for fastlane
       name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -33,7 +29,6 @@ jobs:
         bundler-cache: true
         working-directory: android
 
-      # 4. run dependencies
       name: Run fastlane validate_pr (analyze and test , and build apk)
       working-directory: android
       run: bundle exec fastlane validate_pr
