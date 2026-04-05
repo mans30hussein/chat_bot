@@ -27,3 +27,18 @@ platform :android do
     end
   end
 end
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Run static analysis, unit/widget tests, and a dev-flavor ipa build for PR checks"
+  lane :validate_pr do
+    flutter_root = File.expand_path("../../",__dir__)
+    Dir.chdir(flutter_root) do
+      sh("flutter pub get")
+      sh("flutter analyze")
+      sh("flutter test")
+      sh("flutter build ipa --flavor dev -t lib/main_dev.dart --no-codesign")
+    end
+  end
+end
