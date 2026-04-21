@@ -1,14 +1,14 @@
-name: Validate PR
+name: Firebase App Distribution
 
 on:
-  pull_request:
-# workflow_dispatch:   instead of pull_request to run manually
+  # This workflow is triggered manually via the GitHub Actions UI.
+  workflow_dispatch:
 jobs:
-  android_validate_pr:
+  android_firebase_app_distribution:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. clolone repository
+      # 1. check out repository
       - name: Checkout code
         uses: actions/checkout@v4
         
@@ -45,36 +45,18 @@ jobs:
           bundler-cache: true
           working-directory: android
 
-      # 7. Run Fastlane lane
-      - name: Run fastlane validate_pr (analyze, test, build apk)
-        working-directory: android
-        run: bundle exec fastlane validate_pr
-
-
-  ios_validate_pr:
-    runs-on: macos-latest
-
-    steps:
-      # 1. Checkout repository
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      # 2. Flutter (stable + cache)
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-
-      # 3. Ruby + Fastlane
-      - name: Setup Ruby
+      - name: preper android signing
+        env:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
           bundler-cache: true
-          working-directory: ios
+          working-directory: android
 
-      # 4. Run Fastlane lane
-      - name: Run fastlane validate_pr (analyze, test, build ipa)
-        working-directory: ios
-        run: bundle exec fastlane validate_pr
+      # 7. Run Fastlane lane
+      - name: Run fastlane firebase app distribution
+        working-directory: android
+        run: bundle exec fastlane distribute_release_to_firebase
+
+
+  
