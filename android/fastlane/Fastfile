@@ -36,14 +36,14 @@ platform :android do
     Dir.chdir(flutter_root) do
       sh("flutter pub get")
       sh("flutter test")
-      sh("flutter build appbundle --#{build_type} --flavor #{flavor} -t lib/main_#{flavor}.dart")
+      sh("flutter build apk --#{build_type} --flavor #{flavor} -t lib/main_#{flavor}.dart")
     end
 
     firebase_app_distribution(
       app: "1:65492704218:android:c0a514f5937e650f793ee3",
       groups: "testers",
       firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
-      android_artifact_path: "../build/app/outputs/bundle/devRelease/app-dev-release.aab"
+      android_artifact_path: "../build/app/outputs/apk/dev/release/app-dev-release.apk"
     )
   end
 end
