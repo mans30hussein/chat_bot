@@ -18,7 +18,7 @@ default_platform(:android)
 platform :android do
   desc "Run static analysis, unit/widget tests, and a dev-flavor APK build for PR checks"
   lane :validate_pr do
-    flutter_root = File.expand_path("../../",__dir__)
+    flutter_root = File.expand_path("../../", __dir__)
     Dir.chdir(flutter_root) do
       sh("flutter pub get")
       sh("flutter analyze")
@@ -26,30 +26,24 @@ platform :android do
       sh("flutter build apk --release --flavor dev -t lib/main_dev.dart")
     end
   end
-end
 
-default_platform(:android)
-
-platform :android do
-  desc "Build the release apk and upload to Firebase App Distribution"
+  desc "Build the release AAB and upload to Firebase App Distribution"
   lane :distribute_release_to_firebase do
     flavor = "dev"
     build_type = "release"
-  
+
     flutter_root = File.expand_path("../../", __dir__)
     Dir.chdir(flutter_root) do
       sh("flutter pub get")
       sh("flutter test")
       sh("flutter build appbundle --#{build_type} --flavor #{flavor} -t lib/main_#{flavor}.dart")
     end
-  
-  
+
     firebase_app_distribution(
       app: "1:65492704218:android:c0a514f5937e650f793ee3",
       groups: "testers",
       firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
-      android_artifact_path: "build/app/outputs/bundle/devRelease/app-dev-release.aab"
+      android_artifact_path: "../build/app/outputs/bundle/devRelease/app-dev-release.aab"
     )
   end
-
 end
