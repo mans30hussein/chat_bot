@@ -42,7 +42,7 @@ platform :android do
     firebase_app_distribution(
       app: "1:146090691077:android:cc652ce85f2946f6eeaa6c",
       groups: "testers",
-      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+      firebase_cli_token: ENV.fetch("FIREBASE_CLI_TOKEN",),
       android_artifact_path: "../build/app/outputs/apk/dev/release/app-dev-release.apk"
     )
   end
