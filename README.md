@@ -6,8 +6,8 @@ An AI-powered chatbot mobile application built with Flutter, integrating the **G
 
 ## Screenshots
 
- <img width="959" height="511" alt="chat bot" src="https://github.com/user-attachments/assets/8a586ca7-32be-4699-96ec-18826f277ecb" />  <img width="1080" height="2340" alt="show loading" src="https://github.com/user-attachments/assets/b811cbe0-b9e3-4536-af0b-2e4ff9ec69ff" />
-<img width="1080" height="2340" alt="retry logic" src="https://github.com/user-attachments/assets/246541f0-cabe-464b-98c4-3295c1107fc0" />
+ <img width="959" height="511" alt="chat bot" src="https://github.com/user-attachments/assets/8a586ca7-32be-4699-96ec-18826f277ecb" />  <img width="400" height="800" alt="show loading" src="https://github.com/user-attachments/assets/b811cbe0-b9e3-4536-af0b-2e4ff9ec69ff" />
+<img width="400" height="800" alt="retry logic" src="https://github.com/user-attachments/assets/246541f0-cabe-464b-98c4-3295c1107fc0" />
 
 
 ---
