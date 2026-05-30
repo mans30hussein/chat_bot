@@ -16,12 +16,12 @@ class AllHeaderSection extends StatelessWidget {
         HeaderSection(
           typeList: sectionExplainPrompotItemModel,
           image: Assets.explain,
-          title: 'Explain',
+          title: 'Discuss',
         ),
         HeaderSection(
           typeList: sectionEditPrompotItemModel,
           image: Assets.edit,
-          title: 'Edit',
+          title: 'edit',
         ),
         HeaderSection(
           typeList: sectionTranslatePrompotItemModel,

@@ -13,11 +13,17 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-default_platform(:macos)
+default_platform(:mac)
 
-platform :macos do
-  desc "Description of what the lane does"
-  lane :custom_lane do
-    # add actions here: https://docs.fastlane.tools/actions
+platform :mac do
+  desc "Run static analysis, unit/widget tests, and a macos build for PR checks"
+  lane :validate_pr do
+    flutter_root = File.expand_path("../../",__dir__)
+    Dir.chdir(flutter_root) do
+      sh("flutter pub get")
+      sh("flutter analyze")
+      sh("flutter test")
+      sh("flutter build macos -t lib/main_dev.dart --no-codesign")
+    end
   end
 end
